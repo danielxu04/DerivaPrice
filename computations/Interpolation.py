@@ -1,7 +1,7 @@
 import math
 from array import array
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 # Interpolator parent class
 class Interpolator:
