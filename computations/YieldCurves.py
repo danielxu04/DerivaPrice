@@ -147,5 +147,21 @@ class YCurve:
         ax.plot(tenor, discount_curve)
         ax.set(xlabel='Tenor', ylabel='Discount Factor', title='Discount Curve')
         plt.show(block=False)
-        
-        
+
+    def shift_rates(self, delta: float):
+        delta /= 100
+        shifted = []
+        for i in range(self.length):
+            shifted.append(self.rates[i] + delta)
+        curve = YCurve()
+        curve.rates_constructor(rates=shifted, tenors=self.tenors, interpolator=self.interpolator.copy())
+        return curve
+    
+    def shift_rate(self, delta: float, index: int):
+        delta /= 100
+        shifted = self.rates.copy()
+        shifted[index] += delta
+        curve = YCurve()
+        curve.rates_constructor(rates=shifted, tenors=self.tenors, interpolator=self.interpolator.copy())
+        return curve
+    
