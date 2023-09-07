@@ -12,8 +12,7 @@ def download_data(start_date, end_date, stocks):
     close_data = {}
     for s in stocks:
         ticker = yf.Ticker(s)
-        stocks[s] = ticker.history(start=start_date, end=end_date)
-        close_data[s] = stocks[s]['Close']
+        close_data[s] = ticker.history(start=start_date, end=end_date)['Close']
     return pd.DataFrame(close_data)
 
 # Compute noralized log returns for each stock
@@ -25,8 +24,8 @@ def compute_returns(data):
 # Compute mean and covariance of returns
 def compute_statistics(returns):
     # Mean of annual return
-    print(returns.mean() * TRADING_DAYS)
-    print(returns.cov() * TRADING_DAYS)
+    print('ANNUAL MEAN: \n' + str(returns.mean() * TRADING_DAYS))
+    print('\nCOVARIANCE MATRIX: \n' + str(returns.cov() * TRADING_DAYS))
 
 # Compute mean and volatility of portfolio
 def compute_mean_variance(returns, weights):
@@ -67,8 +66,8 @@ def optimize_portfolio(weights, returns, stocks):
     bounds = tuple((0, 1) for _ in range(len(stocks)))
     optimum = optimization.minimize(fun=minimize_sharpe_ratio, x0=weights[0], args=returns,
                                     method='SLSQP', bounds=bounds, constraints=constraints)
-    print('Optimal portfolio: ' + optimum['x'].round(3))
-    print('Expected return, volatility and Sharpe ratio: ' + portfolio_statistics(optimum['x'].round(3), returns))
+    print('Optimal portfolio: ' + str(optimum['x'].round(3)))
+    print('Expected return, volatility and Sharpe ratio: ' + str(portfolio_statistics(optimum['x'].round(3), returns)))
     return optimum
 
 # Plot data
@@ -94,7 +93,7 @@ def plot_optimal_portfolio(opt, returns, portfolio_returns, vol):
     plt.xlabel('Expected Volatility')
     plt.ylabel('Expected Return')
     plt.colorbar(label='Sharpe Ratio')
-    plt.plot(portfolio_statistics(opt['x'], returns), portfolio_statistics(opt['x'], returns)[0], 'g*', markersize=20.0)
+    plt.plot(portfolio_statistics(opt['x'], returns)[1], portfolio_statistics(opt['x'], returns)[0], 'g*', markersize=20.0)
     plt.show()
 
 
