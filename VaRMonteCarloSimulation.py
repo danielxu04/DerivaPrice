@@ -3,7 +3,6 @@
 import pandas as pd
 import yfinance as yf
 import numpy as np
-import datetime as dt
 
 
 def download_adj_close_data(ticker, start_date, end_date):
