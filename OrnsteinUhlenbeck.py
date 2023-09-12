@@ -9,7 +9,7 @@ def generate_ou_process(dt=0.1, mean_reversion_rate=1.2, mean=0.9, std=0.9, n=10
         x[t] = x[t-1] + mean_reversion_rate * (mean - x[t-1]) * dt + std * normal(0, np.sqrt(dt))
     return x
 
-def plot_process(x):
+def plot_ou_process(x):
     plt.plot(x)
     plt.xlabel('t')
     plt.ylabel('x(t)')
